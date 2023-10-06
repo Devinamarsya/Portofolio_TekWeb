@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Stationery</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body>
+    <nav class="bg-gray-800 p-4 fixed w-full top-0">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <div class="text-white font-normal text-sm">dvinamarsy</div>
+                <div class="flex space-x-14">
+                    <a href="index.html#home" class="text-white">Home</a>
+                    <a href="index.html#about" class="text-white">About Me</a>
+                    <a href="products.html" class="text-white">Products</a>
+                    <a href="index.html#contact" class="text-white">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app" class="mx-auto max-w-4xl mt-16 p-4">
+        <h1 class="flex items-center justify-center text-center text-gray-700 mb-8 text-4xl font-semibold">Stationery</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div v-for="item in items" :key="item.id" class="bg-white p-4 border border-gray-300 rounded-lg shadow">
+                <img :src="item.imgSrc" alt="" class="w-full h-40 object-cover mb-4"/>
+                <div class="font-bold text-lg">{{ item.name }}</div>
+                <div class="text-gray-800">Rp{{ item.price }}</div>
+                <button @click="addToCart(item)" class="mt-4 block w-full bg-gray-800 text-white py-2 px-4 rounded-full">Tambah ke Keranjang</button>
+            </div>
+        </div>
+    
+        <div class="mt-8 border-t border-gray-300 pt-4">
+            <h2 class="text-2xl font-bold mb-4">Keranjang Belanja</h2>
+            <div v-if="cart.length === 0" class="text-gray-600">Keranjang kosong</div>
+            <div v-else>
+                <div v-for="cartItem in cart" :key="cartItem.id" class="flex justify-between items-center border-b border-gray-300 py-2">
+                    <div>
+                        <div class="font-bold">{{ cartItem.name }}</div>
+                        <div>Rp{{ cartItem.price }}</div>
+                    </div>
+                    <button @click="removeFromCart(cartItem)" class="bg-red-500 text-white py-1 px-3 rounded">Hapus dari Keranjang</button>
+                </div>
+                <div class="font-bold text-lg mt-4">Total: Rp{{ getTotal() }}</div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                items: [
+                    { id: 1, name: 'Buku', price: 5000, imgSrc: 'img/buku.jpg' },
+                    { id: 2, name: 'Pensil', price: 3000, imgSrc: 'img/pensil.jpg' },
+                    { id: 3, name: 'Pulpen', price: 3500, imgSrc: 'img/pulpen.jpg' },
+                    { id: 4, name: 'Tip-x', price: 7000, imgSrc: 'img/tipex.jpg' },
+                    { id: 5, name: 'Penghapus', price: 2000, imgSrc: 'img/penghapus.jpg' },
+                    { id: 6, name: 'Penggaris', price: 7500, imgSrc: 'img/penggaris.jpg' },
+                    { id: 7, name: 'Stabilo', price: 5000, imgSrc: 'img/stabilo.jpg' },
+                    { id: 8, name: 'Binder A5', price: 20000, imgSrc: 'img/binder.png' },
+                    { id: 9, name: 'Gunting', price: 8000, imgSrc: 'img/gunting.jpg' },
+                    { id: 10, name: 'Tempat Pensil', price: 10000, imgSrc: 'img/tempensil.jpg' },
+                    { id: 11, name: 'Sticky Notes', price: 4500, imgSrc: 'img/sticky.jpg' },
+                    { id: 12, name: 'Stapler', price: 14000, imgSrc: 'img/stapler.jpg' },
+                    { id: 13, name: 'Spidol', price: 6500, imgSrc: 'img/spidol.jpg' },
+                    { id: 14, name: 'Tinta Refill', price: 12500, imgSrc: 'img/tinta.jpg' },
+                    { id: 15, name: 'Map', price: 2000, imgSrc: 'img/map.jpg' },
+                ],
+                cart: []
+            },
+            methods: {
+                addToCart: function(item) {
+                    this.cart.push(item);
+                },
+                removeFromCart: function(item) {
+                    const index = this.cart.indexOf(item);
+                    if (index !== -1) {
+                        this.cart.splice(index, 1);
+                    }
+                },
+                getTotal: function() {
+                    return this.cart.reduce((total, item) => total + item.price, 0);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
